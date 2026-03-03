@@ -1,0 +1,10 @@
+# Exclude source TypeScript files from npm package
+nodes/
+credentials/
+tsconfig.json
+.eslintrc.js
+.prettierrc.js
+.github/
+docs/
+*.ts
+# Keep dist/ (do NOT add dist/ to .gitignore)

@@ -1,0 +1,62 @@
+{
+  "name": "@ivanlaomarketing/n8n-nodes-mailhook-cloudmailin",
+  "version": "1.0.0",
+  "description": "n8n community node for CloudMailin — receive inbound emails as workflow triggers (mailhook). Works like Make.com mailhooks. Supports manual setup and auto-provisioning via CloudMailin Management API.",
+  "keywords": [
+    "n8n-community-node-package",
+    "n8n",
+    "cloudmailin",
+    "mailhook",
+    "email-trigger",
+    "email-webhook",
+    "inbound-email",
+    "email-automation",
+    "marketing-automation",
+    "ivanlaomarketing",
+    "webhook-trigger",
+    "email-parsing",
+    "make-alternative"
+  ],
+  "license": "MIT",
+  "homepage": "https://laoivan.com",
+  "author": {
+    "name": "Ivan Lao",
+    "email": "info@laoivan.com",
+    "url": "https://laoivan.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ivanlaomarketing/n8n-nodes-mailhook-cloudmailin"
+  },
+  "bugs": {
+    "url": "https://github.com/ivanlaomarketing/n8n-nodes-mailhook-cloudmailin/issues"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc && npm run copy:icons",
+    "copy:icons": "cp nodes/CloudMailin/cloudmailin.svg dist/nodes/CloudMailin/cloudmailin.svg",
+    "dev": "n8n-node dev",
+    "format": "prettier nodes credentials --write",
+    "lint": "eslint nodes credentials --ext .ts",
+    "lint:fix": "eslint nodes credentials --ext .ts --fix",
+    "prepublishOnly": "npm run build"
+  },
+  "files": ["dist"],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": [
+      "dist/credentials/CloudMailinApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/CloudMailin/CloudMailinTrigger.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.16",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint-plugin-n8n-nodes-base": "^1.16.2",
+    "n8n-workflow": "*",
+    "prettier": "^3.3.2",
+    "typescript": "^5.5.4"
+  }
+}
