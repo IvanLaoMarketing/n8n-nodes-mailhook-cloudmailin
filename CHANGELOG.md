@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.1] - 2026-03-03
+### Changed
+- Renamed node display name from "CloudMailin Trigger" to "Mailhook CloudMailin"
+
 ## [1.0.0] - 2026-03-03
 ### Added
 - CloudMailin Trigger node (webhook-based, real-time)

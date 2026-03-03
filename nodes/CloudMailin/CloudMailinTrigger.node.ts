@@ -12,7 +12,7 @@ import { cloudMailinApiRequest } from './GenericFunctions';
 
 export class CloudMailinTrigger implements INodeType {
   description: INodeTypeDescription = {
-    displayName: 'CloudMailin Trigger',
+    displayName: 'Mailhook CloudMailin',
     name: 'cloudMailinTrigger',
     icon: 'file:cloudmailin.svg',
     group: ['trigger'],
@@ -22,7 +22,7 @@ export class CloudMailinTrigger implements INodeType {
       'Triggers an n8n workflow when an email is received via CloudMailin. ' +
       'Works like Make.com Mailhooks. Supports manual setup (no API key needed) ' +
       'and auto-provisioning via CloudMailin Management API.',
-    defaults: { name: 'CloudMailin Trigger' },
+    defaults: { name: 'Mailhook CloudMailin' },
     inputs: [],
     outputs: ['main'],
     credentials: [

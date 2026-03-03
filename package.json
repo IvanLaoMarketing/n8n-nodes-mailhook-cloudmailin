@@ -1,6 +1,6 @@
 {
   "name": "@ivanlaomarketing/n8n-nodes-mailhook-cloudmailin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "n8n community node for CloudMailin — receive inbound emails as workflow triggers (mailhook). Works like Make.com mailhooks. Supports manual setup and auto-provisioning via CloudMailin Management API.",
   "keywords": [
     "n8n-community-node-package",
