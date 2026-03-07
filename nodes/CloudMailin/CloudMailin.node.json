@@ -1,0 +1,29 @@
+{
+	"node": "n8n-nodes-mailhook-cloudmailin.cloudMailin",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Communication", "Marketing"],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://docs.cloudmailin.com/features/using_the_cloudmailin_email_api/"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://docs.cloudmailin.com/getting_started/"
+			}
+		]
+	},
+	"alias": [
+		"email",
+		"send email",
+		"inbound email",
+		"cloudmailin",
+		"mail",
+		"smtp",
+		"address",
+		"domain",
+		"sending domain"
+	]
+}

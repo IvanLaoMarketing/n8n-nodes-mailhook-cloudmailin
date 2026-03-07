@@ -12,7 +12,7 @@ import { cloudMailinApiRequest } from './GenericFunctions';
 
 export class CloudMailinTrigger implements INodeType {
   description: INodeTypeDescription = {
-    displayName: 'Mailhook CloudMailin',
+    displayName: 'Mailhook CloudMailin Trigger',
     name: 'cloudMailinTrigger',
     icon: 'file:cloudmailin.svg',
     group: ['trigger'],

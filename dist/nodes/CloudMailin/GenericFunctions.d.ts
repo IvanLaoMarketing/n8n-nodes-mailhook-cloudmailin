@@ -5,4 +5,9 @@ type CloudMailinContext = IExecuteFunctions | IHookFunctions | ILoadOptionsFunct
  * Retries up to 3 times on HTTP 429 (Too Many Requests).
  */
 export declare function cloudMailinApiRequest(this: CloudMailinContext, method: 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH', endpoint: string, body?: object, retries?: number): Promise<any>;
+/**
+ * Makes an authenticated request to the CloudMailin SMTP/Sending API.
+ * Uses the SMTP API Token instead of the Management API Key.
+ */
+export declare function cloudMailinSmtpRequest(this: CloudMailinContext, method: 'POST', endpoint: string, body?: object, retries?: number): Promise<any>;
 export {};

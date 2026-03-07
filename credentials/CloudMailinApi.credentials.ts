@@ -12,6 +12,15 @@ export class CloudMailinApi implements ICredentialType {
   documentationUrl = 'https://docs.cloudmailin.com/features/using_the_cloudmailin_email_api/';
   properties: INodeProperties[] = [
     {
+      displayName: 'Account ID',
+      name: 'accountId',
+      type: 'string',
+      default: '',
+      description:
+        'Your CloudMailin Account ID. Found on your account page at https://www.cloudmailin.com/account. ' +
+        'Required for Auto-Provision mode.',
+    },
+    {
       displayName: 'Management API Key',
       name: 'apiKey',
       type: 'string',
@@ -51,10 +60,10 @@ export class CloudMailinApi implements ICredentialType {
   test: ICredentialTestRequest = {
     request: {
       baseURL: 'https://api.cloudmailin.com',
-      url: '/api/v0.1/addresses',
+      url: '=/api/v0.1/{{$credentials.accountId}}/addresses',
       method: 'GET',
       headers: {
-        Authorization: '=apikey token={{$credentials.apiKey}}',
+        Authorization: '=Bearer {{$credentials.apiKey}}',
       },
     },
   };

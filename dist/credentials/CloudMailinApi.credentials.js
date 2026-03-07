@@ -9,6 +9,14 @@ class CloudMailinApi {
         this.documentationUrl = 'https://docs.cloudmailin.com/features/using_the_cloudmailin_email_api/';
         this.properties = [
             {
+                displayName: 'Account ID',
+                name: 'accountId',
+                type: 'string',
+                default: '',
+                description: 'Your CloudMailin Account ID. Found on your account page at https://www.cloudmailin.com/account. ' +
+                    'Required for Auto-Provision mode.',
+            },
+            {
                 displayName: 'Management API Key',
                 name: 'apiKey',
                 type: 'string',
@@ -43,10 +51,10 @@ class CloudMailinApi {
         this.test = {
             request: {
                 baseURL: 'https://api.cloudmailin.com',
-                url: '/api/v0.1/addresses',
+                url: '=/api/v0.1/{{$credentials.accountId}}/addresses',
                 method: 'GET',
                 headers: {
-                    Authorization: '=apikey token={{$credentials.apiKey}}',
+                    Authorization: '=Bearer {{$credentials.apiKey}}',
                 },
             },
         };

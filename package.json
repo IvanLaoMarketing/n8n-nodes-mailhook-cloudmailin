@@ -1,7 +1,7 @@
 {
   "name": "@ivanlaomarketing/n8n-nodes-mailhook-cloudmailin",
-  "version": "1.0.1",
-  "description": "n8n community node for CloudMailin — receive inbound emails as workflow triggers (mailhook). Works like Make.com mailhooks. Supports manual setup and auto-provisioning via CloudMailin Management API.",
+  "version": "1.1.0",
+  "description": "n8n community node for CloudMailin — receive inbound emails as workflow triggers, send emails, manage inbound addresses, custom domains, sending domains, and track messages via the CloudMailin API.",
   "keywords": [
     "n8n-community-node-package",
     "n8n",
@@ -15,7 +15,11 @@
     "ivanlaomarketing",
     "webhook-trigger",
     "email-parsing",
-    "make-alternative"
+    "make-alternative",
+    "send-email",
+    "smtp",
+    "sending-domain",
+    "custom-domain"
   ],
   "license": "MIT",
   "homepage": "https://laoivan.com",
@@ -48,7 +52,8 @@
       "dist/credentials/CloudMailinApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/CloudMailin/CloudMailinTrigger.node.js"
+      "dist/nodes/CloudMailin/CloudMailinTrigger.node.js",
+      "dist/nodes/CloudMailin/CloudMailin.node.js"
     ]
   },
   "devDependencies": {

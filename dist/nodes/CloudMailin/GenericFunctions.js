@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cloudMailinApiRequest = cloudMailinApiRequest;
+exports.cloudMailinSmtpRequest = cloudMailinSmtpRequest;
 const n8n_workflow_1 = require("n8n-workflow");
 /**
  * Makes an authenticated request to the CloudMailin Management API.
@@ -9,11 +10,12 @@ const n8n_workflow_1 = require("n8n-workflow");
 async function cloudMailinApiRequest(method, endpoint, body = {}, retries = 3) {
     var _a;
     const credentials = await this.getCredentials('cloudMailinApi');
+    const accountId = credentials.accountId;
     const options = {
         method,
-        url: `https://api.cloudmailin.com/api/v0.1${endpoint}`,
+        url: `https://api.cloudmailin.com/api/v0.1/${accountId}${endpoint}`,
         headers: {
-            Authorization: `apikey token=${credentials.apiKey}`,
+            Authorization: `Bearer ${credentials.apiKey}`,
             'Content-Type': 'application/json',
             Accept: 'application/json',
         },
@@ -47,6 +49,61 @@ async function cloudMailinApiRequest(method, endpoint, body = {}, retries = 3) {
         throw new n8n_workflow_1.NodeApiError(this.getNode(), {
             message: error.message,
             description: `Network error calling CloudMailin API: ${method} ${endpoint}`,
+        });
+    }
+}
+/**
+ * Makes an authenticated request to the CloudMailin SMTP/Sending API.
+ * Uses the SMTP API Token instead of the Management API Key.
+ */
+async function cloudMailinSmtpRequest(method, endpoint, body = {}, retries = 3) {
+    var _a;
+    const credentials = await this.getCredentials('cloudMailinApi');
+    const accountId = credentials.accountId;
+    const smtpToken = credentials.smtpApiToken;
+    if (!smtpToken) {
+        throw new n8n_workflow_1.NodeApiError(this.getNode(), {
+            message: 'SMTP API Token is required for sending emails',
+            description: 'Please add your SMTP API Token in the CloudMailin credentials. ' +
+                'Find it at https://www.cloudmailin.com/outbound/senders',
+        });
+    }
+    const options = {
+        method,
+        url: `https://api.cloudmailin.com/api/v0.1/${accountId}${endpoint}`,
+        headers: {
+            Authorization: `Bearer ${smtpToken}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+        },
+        body: Object.keys(body).length > 0 ? body : undefined,
+        returnFullResponse: true,
+        ignoreHttpStatusErrors: true,
+    };
+    try {
+        const response = await this.helpers.httpRequest(options);
+        if (response.statusCode === 429 && retries > 0) {
+            const retryAfterHeader = (_a = response.headers) === null || _a === void 0 ? void 0 : _a['retry-after'];
+            const waitMs = retryAfterHeader ? parseInt(retryAfterHeader, 10) * 1000 : 1000;
+            await new Promise((resolve) => setTimeout(resolve, waitMs));
+            return cloudMailinSmtpRequest.call(this, method, endpoint, body, retries - 1);
+        }
+        if (response.statusCode >= 400) {
+            const errorBody = response.body;
+            throw new n8n_workflow_1.NodeApiError(this.getNode(), {
+                message: (errorBody === null || errorBody === void 0 ? void 0 : errorBody.message) || (errorBody === null || errorBody === void 0 ? void 0 : errorBody.error) || `HTTP ${response.statusCode}`,
+                description: `CloudMailin SMTP API error: ${method} ${endpoint} returned ${response.statusCode}`,
+                httpCode: String(response.statusCode),
+            });
+        }
+        return response.body;
+    }
+    catch (error) {
+        if (error instanceof n8n_workflow_1.NodeApiError)
+            throw error;
+        throw new n8n_workflow_1.NodeApiError(this.getNode(), {
+            message: error.message,
+            description: `Network error calling CloudMailin SMTP API: ${method} ${endpoint}`,
         });
     }
 }

@@ -6,7 +6,7 @@ const GenericFunctions_1 = require("./GenericFunctions");
 class CloudMailinTrigger {
     constructor() {
         this.description = {
-            displayName: 'Mailhook CloudMailin',
+            displayName: 'Mailhook CloudMailin Trigger',
             name: 'cloudMailinTrigger',
             icon: 'file:cloudmailin.svg',
             group: ['trigger'],
