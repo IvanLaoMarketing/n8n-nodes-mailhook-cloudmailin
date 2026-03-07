@@ -58,12 +58,18 @@ class CloudMailinTrigger {
                 },
                 // NOTICE — MANUAL MODE
                 {
-                    displayName: '📋 <strong>Manual Setup Instructions:</strong><br/>' +
-                        '1. Activate this workflow — a Webhook URL will appear above.<br/>' +
-                        '2. Copy that URL.<br/>' +
-                        '3. Go to your <a href="https://www.cloudmailin.com/dashboard" target="_blank">CloudMailin Dashboard</a>.<br/>' +
-                        '4. Edit your email address → paste the URL as Target URL → set Format to <strong>JSON (Normalized)</strong>.<br/>' +
-                        '5. Save. Your workflow now triggers on every incoming email.',
+                    displayName: '📋 <strong>Manual Setup — Step by Step:</strong><br/><br/>' +
+                        '<strong>Step 1:</strong> Create a free account at <a href="https://www.cloudmailin.com" target="_blank">cloudmailin.com</a> (if you don\'t have one).<br/>' +
+                        '<strong>Step 2:</strong> In the <a href="https://www.cloudmailin.com/dashboard" target="_blank">CloudMailin Dashboard</a>, ' +
+                        'create or edit an email address.<br/>' +
+                        '<strong>Step 3:</strong> Set the <strong>Format</strong> to <strong>JSON (Normalized)</strong>.<br/>' +
+                        '<strong>Step 4:</strong> Activate this n8n workflow — a <strong>Webhook URL</strong> will appear ' +
+                        'at the top of this node (starts with https://...).<br/>' +
+                        '<strong>Step 5:</strong> Copy that Webhook URL and paste it as the <strong>Target URL</strong> ' +
+                        'in your CloudMailin address settings.<br/>' +
+                        '<strong>Step 6:</strong> Save in CloudMailin. Done! Every email sent to your CloudMailin address ' +
+                        'will now trigger this workflow.<br/><br/>' +
+                        '💡 <em>No API key or credentials needed for manual mode.</em>',
                     name: 'manualNotice',
                     type: 'notice',
                     default: '',
@@ -71,12 +77,20 @@ class CloudMailinTrigger {
                 },
                 // NOTICE — AUTO-PROVISION MODE
                 {
-                    displayName: '⚡ <strong>Auto-Provision Mode:</strong><br/>' +
-                        'This mode automatically creates a CloudMailin email address when you activate this workflow ' +
-                        'and deletes it when deactivated.<br/>' +
-                        '<strong>Requires CloudMailin Management API access.</strong> ' +
-                        'Request it at <a href="https://www.cloudmailin.com/contact_us" target="_blank">cloudmailin.com/contact_us</a>, ' +
-                        'then add your API key in CloudMailin API credentials.',
+                    displayName: '⚡ <strong>Auto-Provision Mode — How it Works:</strong><br/><br/>' +
+                        'When you <strong>activate</strong> this workflow, a new CloudMailin email address ' +
+                        'is automatically created and configured to forward emails to this node.<br/>' +
+                        'When you <strong>deactivate</strong> the workflow, the email address is automatically deleted.<br/><br/>' +
+                        '<strong>Prerequisites:</strong><br/>' +
+                        '1. A CloudMailin account with <strong>Management API access</strong> enabled ' +
+                        '(request it at <a href="https://www.cloudmailin.com/contact_us" target="_blank">cloudmailin.com/contact_us</a>).<br/>' +
+                        '2. Add your API credentials in the <strong>CloudMailin API</strong> credential above ' +
+                        '(Account ID + API Key from your CloudMailin dashboard).<br/><br/>' +
+                        '<strong>After activation:</strong><br/>' +
+                        '• The created email address will appear in the <strong>execution log</strong> ' +
+                        'and in your <a href="https://www.cloudmailin.com/dashboard" target="_blank">CloudMailin Dashboard</a>.<br/>' +
+                        '• Send a test email to that address to trigger the workflow.<br/>' +
+                        '• The email address format is: <em>random-id@cloudmailin.net</em>',
                     name: 'autoProvisionNotice',
                     type: 'notice',
                     default: '',
@@ -158,7 +172,8 @@ class CloudMailinTrigger {
                     const webhookData = this.getWorkflowStaticData('node');
                     try {
                         const response = await GenericFunctions_1.cloudMailinApiRequest.call(this, 'POST', '/addresses', {
-                            target: { url: webhookUrl, format: 'json' },
+                            target: webhookUrl,
+                            target_format: 'json+n',
                         });
                         webhookData.addressId = response.id;
                         webhookData.emailAddress = response.address;
